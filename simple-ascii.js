@@ -11,8 +11,8 @@ class AsciiArtAnimator {
         bgColor: "#000000",
         density: 0.3,
         speed: 0.04,
-        targetFPS: 24, //nts combine speed and target fps
-        largeScale: 1.5 //scale factor for the emphasized line - nts handle in css w/ flexboxes?
+        targetFPS: 24,
+        largeScale: 1.5
       },
       config
     );
@@ -95,6 +95,9 @@ class AsciiArtAnimator {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.textBaseline = "top";
 
+    // Get font family from CSS variable
+    const fontFamily = getComputedStyle(this.canvas).getPropertyValue('--ascii-font').trim();
+
     const patternFunc = this.patterns[config.pattern];
     const charArray = config.chars.split("");
     const textRows = config.text.length;
@@ -110,14 +113,12 @@ class AsciiArtAnimator {
           const lineIndex = y - textStartRow;
           const textLine = config.text[lineIndex].toUpperCase();
 
-          // Adjust font size for emphasized text
           const isLastLine = lineIndex === config.text.length - 1;
           const currentFontSize = isLastLine
             ? config.fontSize * config.largeScale
             : config.fontSize;
-          ctx.font = `${currentFontSize}px monospace`;
+          ctx.font = `${currentFontSize}px ${fontFamily}`;
 
-          // Recalculate centering for each line
           const lineCols = Math.floor((canvas.width / scale) / (currentFontSize * 0.6));
           const textStartCol = Math.floor((lineCols - textLine.length) / 2);
           const relX = x - textStartCol;
@@ -131,8 +132,8 @@ class AsciiArtAnimator {
                 .padStart(2, "0");
             ctx.fillText(
               textLine[relX],
-              x * config.fontSize * 0.6,
-              y * config.fontSize
+              x * currentFontSize * 0.6,
+              y * currentFontSize
             );
             continue;
           }
@@ -144,7 +145,7 @@ class AsciiArtAnimator {
           .toString(16)
           .padStart(2, "0");
         ctx.fillStyle = config.color + alpha;
-        ctx.font = `${config.fontSize}px monospace`;
+        ctx.font = `${config.fontSize}px ${fontFamily}`;
         ctx.fillText(char, x * config.fontSize * 0.6, y * config.fontSize);
       }
     }
