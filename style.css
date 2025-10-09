@@ -1,3 +1,65 @@
+/* Layout for main content and project links */
+.main-layout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.copy-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 3vw;
+  pointer-events: auto;
+}
+
+.tackle-group {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  font-family: 'Courier Prime', 'Fira Code', monospace;
+  font-size: 1.2em;
+  color: #c2e222;
+}
+
+.tisane {
+  font-family: 'BBH Sans Bartle', sans-serif;
+  font-size: 2.5em;
+  color: #c2e222;
+  margin-top: 0.2em;
+}
+
+#project-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-left: 3vw;
+  background: rgba(0,0,0,0.7);
+  padding: 1em 2em;
+  border-radius: 8px;
+  color: #c2e222;
+  z-index: 20;
+  pointer-events: auto;
+}
+
+#project-container a {
+  color: #c2e222;
+  text-decoration: none;
+  font-family: 'Fira Code', monospace;
+}
+
+#project-container a:hover {
+  text-decoration: underline;
+}
 html, body {
   margin: 0;
   padding: 0;
