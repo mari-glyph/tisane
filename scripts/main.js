@@ -5,7 +5,7 @@ import { Animator } from "./Animator.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   const config = {
-    text: ["tackle tacit", "tackle taste", "tisane"],
+    // text: ["tackle tacit", "tackle taste", "tisane"], //animated background text - double effect
     chars: "✦✤*✴",
     fontSize: 16,
     color: "#c2e222",
@@ -22,4 +22,16 @@ window.addEventListener("DOMContentLoaded", () => {
   const renderer = new AsciiRenderer(canvasManager.ctx, config, AsciiPatterns);
   const animator = new Animator(renderer, config);
   animator.start();
+
+  // expose for debugging and ensure clean shutdown
+  window.__tisane = { canvasManager, renderer, animator };
+  window.addEventListener('beforeunload', () => {
+    try {
+      animator.destroy();
+      renderer.destroy();
+      canvasManager.destroy();
+    } catch (e) {
+      // ignore
+    }
+  });
 });

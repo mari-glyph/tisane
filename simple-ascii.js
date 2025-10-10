@@ -4,7 +4,7 @@ class AsciiArtAnimator {
 
     this.config = Object.assign(
       {
-        text: ["tackle tacit", "tackle taste", "tisane"],
+        // text: ["tackle tacit", "tackle taste", "tisane"], //toggle double text - note to get rid of repeat in main.js & generally combine this file and main
         chars: "✦✤*✴",
         fontSize: 15,
         color: "#c2e222",

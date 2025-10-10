@@ -2,11 +2,14 @@ export class CanvasManager {
   constructor(containerId, fontSize = 16) {
     this.container = document.getElementById(containerId);
     this.canvas = document.createElement("canvas");
+    this.canvas.id = "background";
+    this.canvas.setAttribute('aria-hidden', 'true');
     this.ctx = this.canvas.getContext("2d");
     this.container.appendChild(this.canvas);
     this.fontSize = fontSize;
     this.resizeCanvas();
-    window.addEventListener("resize", this._debounce(() => this.resizeCanvas(), 200));
+    this._resizeHandler = debounce(() => this.resizeCanvas(), 200);
+    window.addEventListener("resize", this._resizeHandler);
   }
 
   resizeCanvas() {
@@ -29,10 +32,17 @@ export class CanvasManager {
   }
 
   _debounce(fn, delay) {
+    // kept for backward compatibility; prefer importing debounce from utils
     let timer;
     return (...args) => {
       clearTimeout(timer);
       timer = setTimeout(() => fn(...args), delay);
     };
+  }
+  
+  destroy() {
+    if (this._resizeHandler && this._resizeHandler.cancel) this._resizeHandler.cancel();
+    if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
+    if (this.canvas && this.canvas.parentNode) this.canvas.parentNode.removeChild(this.canvas);
   }
 }
